@@ -7,6 +7,7 @@ class ControllerBase < Phase9::ControllerBase
     check_authenticity if @@protect_from_forgery
   end
   #Why do we need this?
+  #Because ERB.new evaluates expressions in the main namespace
   # def helper_method(method_name)
   #   ViewHelper.define_method(method_name) {instance_method(method_name)}
   #   #might need to create a "define method" in ViewHelper module, that takes
