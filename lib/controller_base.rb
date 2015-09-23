@@ -12,7 +12,7 @@ class ControllerBase
   # helper_method :form_authenticity_token
 
   def self.protect_from_forgery(boolean)
-    @@protect_from_forgery == boolean
+    @protect_from_forgery = boolean
   end
 
   def form_authenticity_token
@@ -23,7 +23,7 @@ class ControllerBase
   def initialize(req, res, route_params = {})
     @req, @res = req, res
     @params = Params.new(req, route_params)
-    check_authenticity if @@protect_from_forgery
+    check_authenticity if @protect_from_forgery
   end
 
   def check_authenticity
@@ -47,8 +47,8 @@ class ControllerBase
     raise "already rendered" if already_built_response?
     folder = self.class.name.split /(?=[A-Z])/
     folder = folder.map(&:downcase).join("_")
-    template = File.read("views/#{folder}/#{template_name}.html.erb")
-    res.body = ERB.new(template).result
+    template = File.read("../views/#{folder}/#{template_name}.html.erb")
+    res.body = ERB.new(template).result(binding)
     res.content_type = "text/html"
     @built_response = true
   end

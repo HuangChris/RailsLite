@@ -63,6 +63,6 @@ class Router
   # either throw 404 or call run on a matched route
   def run(req, res)
     route = match(req)
-    route ? route.run : res.status=(404)
+    route ? route.run(req, res) : res.status=(404)
   end
 end
