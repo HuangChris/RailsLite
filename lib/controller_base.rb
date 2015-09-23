@@ -44,6 +44,12 @@ class ControllerBase
   end
 
   def render(template_name)
+    session["test"] = "test"
+    flash["test"] = (flash["test"] || 0) + 1
+    session.store_session(res)
+    flash.store_flash(res)
+    p session
+    p flash
     raise "already rendered" if already_built_response?
     folder = self.class.name.split /(?=[A-Z])/
     folder = folder.map(&:downcase).join("_")
@@ -87,6 +93,7 @@ class ControllerBase
 
   #Why do we need this?
   #Because ERB.new evaluates expressions in the main namespace
+  #except we added result(binding) to it, which should mean it doesn't need.
   def helper_method(method_name)
     # ViewHelper.define_method(method_name) {instance_method(method_name)}
     #might need to create a "define method" in ViewHelper module, that takes

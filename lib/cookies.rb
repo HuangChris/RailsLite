@@ -3,9 +3,9 @@ require 'webrick'
 class Session
 
   def initialize(req)
-    cookie = req.cookies[0]
+    # cookie = req.cookies[0]
     # I'm not sure this works: I might need to rename and find by name
-    # cookie = req.cookies.select { |cookie| cookie.name = "_rails_lite_app_flash"}
+    cookie = req.cookies.select { |cookie| cookie.name == "_rails_lite_app_session"}.first
     if cookie
       @session = JSON.parse(cookie.value)
     else
@@ -26,13 +26,13 @@ class Session
   end
 
   def store_session(res)
-    res.cookies[0] = WEBrick::Cookie.new("_rails_lite_app", @session.to_json)
+    res.cookies << WEBrick::Cookie.new("_rails_lite_app_session", @session.to_json)
   end
 end
 
 class Flash
   def initialize(req)
-    cookie = req.cookies[1]
+    cookie = req.cookies.select{|cookie| cookie.name == "_rails_lite_app_flash"}.first
     cookie ? @flash= JSON.parse(cookie.value) : @flash = {}
     @new_flash = {}
   end
@@ -51,11 +51,11 @@ class Flash
 
   def to_s
     hash = @flash.dup
-    hash["now"]=@new_flash
+    hash[:now]=@new_flash
     hash
  end
 
   def store_flash(res)
-    res.cookies[1] = WEBrick::Cookie.new("_rails_lite_app", @new_flash.to_json)
+    res.cookies[1] = WEBrick::Cookie.new("_rails_lite_app_flash", @new_flash.to_json)
   end
 end
