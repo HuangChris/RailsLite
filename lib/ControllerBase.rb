@@ -76,7 +76,6 @@ class ControllerBase
     res.content_type = content_type
     res.body = content
     @built_response = true
-
   end
 
   #Why do we need this?

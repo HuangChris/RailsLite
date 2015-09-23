@@ -13,6 +13,10 @@ class Session
     end
   end
 
+  def to_s
+    @session.to_s
+  end
+
   def [](key)
     @session[key]
   end
@@ -44,6 +48,12 @@ class Flash
   def.now[]=(key,value)
     @flash[key] = value
   end
+
+  def to_s
+    hash = @flash.dup
+    hash["now"]=@new_flash
+    hash
+ end
 
   def store_flash(res)
     res.cookies[1] = WEBrick::Cookie.new("_rails_lite_app", @new_flash.to_json)
