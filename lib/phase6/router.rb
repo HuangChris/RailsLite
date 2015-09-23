@@ -20,8 +20,7 @@ module Phase6
     def run(req, res)
       route_matches = matches?(req)
       route_params = Hash.new
-      route_matches.names.each { |name| route_params[name] = match[name] }
-      # We need to determine route_params and replace the empty hash
+      route_matches.names.each { |name| route_params[name] = route_matches[name] }
       controller_class.new(req,res, route_params).invoke_action(action_name)
     end
   end
@@ -41,11 +40,15 @@ module Phase6
     # evaluate the proc in the context of the instance
     # for syntactic sugar :)
     def draw(&proc)
+      self.instance_eval(&proc)
     end
 
     # make each of these methods that
     # when called add route
     [:get, :post, :put, :delete].each do |http_method|
+      define_method(http_method) do |pattern, c_class, action|
+        add_route(pattern, http_method, c_class, action)
+      end
     end
 
     # should return the route that matches this request
@@ -53,6 +56,7 @@ module Phase6
       @routes.each do |route|
         return route if route.matches?(req)
       end
+      nil
     end
 
     # either throw 404 or call run on a matched route

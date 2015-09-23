@@ -17,4 +17,9 @@ module Phase3
       @built_response = true
     end
   end
+
+    def special_method
+      "Test string here"
+    end
 end
+include(Phase3)
