@@ -1,3 +1,10 @@
+require_relative 'cookies'
+require_relative 'helper'
+require_relative 'model' #might find a way to add this by default with
+  # the specific model?
+require_relative 'params'
+
+
 class ControllerBase
   attr_reader :req, :res, :params
   #options you would add to your ApplicationController/modelcontroller
