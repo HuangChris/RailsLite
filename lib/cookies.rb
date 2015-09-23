@@ -45,8 +45,8 @@ class Flash
     @new_flash[key] = value
   end
 
-  def.now[]=(key,value)
-    @flash[key] = value
+  def now
+    @flash
   end
 
   def to_s

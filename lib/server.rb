@@ -1,7 +1,6 @@
 require 'webrick'
-require_relative '../lib/phase6/controller_base'
-require_relative '../lib/phase6/router'
-
+require_relative 'controller_base'
+require_relative 'router'
 router = Router.new
 server = WEBrick::HTTPServer.new(Port: 3000)
 
