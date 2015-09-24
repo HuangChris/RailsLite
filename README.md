@@ -2,6 +2,8 @@
 
 ##Steps to run a basic webapp:
 
+* Make your database (cats.db and cats.sql)
+  * You can rename them if you like, but change the names in db_connection.rb
 * write routes in app/routes.rb
   * for now, they have to be written directly on the server.rb
 * create models that inherit from lib/model.rb
