@@ -7,6 +7,7 @@ server = WEBrick::HTTPServer.new(Port: 3000)
 #  require_relative '../app/routes.rb' #instead of making routes here
 router.draw do
   get Regexp.new("^/cats$"), CatsController, :index
+  post Regexp.new("^/cats$"), CatsController, :index
 end
 
 server.mount_proc('/') do |req, res|

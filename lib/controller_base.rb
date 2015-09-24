@@ -6,32 +6,35 @@ require_relative 'params'
 
 
 class ControllerBase
+  require 'SecureRandom'
   attr_reader :req, :res, :params
   #options you would add to your ApplicationController/modelcontroller
-  # protect_from_forgery true
+  # protect_from_forgery
   # helper_method :form_authenticity_token
 
-  def self.protect_from_forgery(boolean)
-    @protect_from_forgery = boolean
+  def self.protect_from_forgery
+    puts "protect_from_forgery called"
+    @@protect_from_forgery = true
+    p @@protect_from_forgery
   end
 
   def form_authenticity_token
-    session[authenticity_token]
+    session["authenticity_token"]
   end
 
   # setup the controller
   def initialize(req, res, route_params = {})
     @req, @res = req, res
     @params = Params.new(req, route_params)
-    check_authenticity if @protect_from_forgery
+    check_authenticity if @@protect_from_forgery
   end
 
   def check_authenticity
     unless req.request_method == "GET" ||
-      params[authenticity_token] == session[authenticity_token]
+      params["authenticity_token"] == session["authenticity_token"]
         raise "Unauthenticated request"
     end
-    session[authenticity_token] = SecureRandom.urlsafe_base64
+    session["authenticity_token"] = SecureRandom.urlsafe_base64
   end
 
   def invoke_action(name)
@@ -48,8 +51,8 @@ class ControllerBase
     flash["test"] = (flash["test"] || 0) + 1
     session.store_session(res)
     flash.store_flash(res)
-    p session
-    p flash
+    # p session
+    # p flash
     raise "already rendered" if already_built_response?
     folder = self.class.name.split /(?=[A-Z])/
     folder = folder.map(&:downcase).join("_")
