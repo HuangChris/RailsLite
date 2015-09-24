@@ -7,13 +7,13 @@ class SQLObject
   extend Searchable
   extend Associatable
   def self.columns
-    records_and_columns = DBConnection.execute2(<<-SQL)
+    @columns ||= DBConnection.execute2(<<-SQL)
       SELECT
         *
       FROM
         #{self.table_name}
     SQL
-    records_and_columns.first.map{ |column| column.to_sym }
+    columns.first.map{ |column| column.to_sym }
   end
 
   def self.finalize!
@@ -36,12 +36,14 @@ class SQLObject
   end
 
   def self.all
+    debugger
     records = DBConnection.execute(<<-SQL)
       SELECT
         *
       FROM
         #{self.table_name}
     SQL
+    p records
     self.parse_all(records)
   end
 
