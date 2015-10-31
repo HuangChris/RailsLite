@@ -1,9 +1,5 @@
 require 'sqlite3'
 
-
-#TODO I have no idea how to fix this file..  I think I can leave most of
-  # it, but I don't even know what I need to change.
-# https://tomafro.net/2010/01/tip-relative-paths-with-file-expand-path
 ROOT_FOLDER = File.expand_path('..')
 CATS_SQL_FILE = File.join(ROOT_FOLDER, 'db/cats.sql')
 CATS_DB_FILE = File.join(ROOT_FOLDER, 'db/cats.db')

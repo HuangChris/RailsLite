@@ -1,11 +1,8 @@
 class Params
-  # use your initialize to merge params from
+  # use initialize to merge params from
   # 1. query string
   # 2. post body
   # 3. route params
-  #
-  # You haven't done routing yet; but assume route params will be
-  # passed in as a hash to `Params.new` as below:
   def initialize(req, route_params = {})
     @params = {}
     @params.merge!(route_params)
@@ -23,7 +20,6 @@ class Params
   end
 
   class AttributeNotFoundError < ArgumentError; end;
-  # This was in the skeleton... I don't know if it got used at all
 
   private
   # this should return deeply nested hash
